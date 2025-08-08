@@ -1,0 +1,34 @@
+{
+  "name": "vanilj-monorepo",
+  "version": "1.0.0",
+  "description": "Vanilj Framework - A lightweight reactive framework for vanilla JavaScript",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:core": "npm run build --workspace=@vanilj/core",
+    "build:plugins": "npm run build --workspace=@vanilj/plugin-devtools --workspace=@vanilj/plugin-i18n --workspace=@vanilj/plugin-reactive-object --workspace=@vanilj/plugin-store",
+    "dev": "npm run dev --workspaces",
+    "clean": "npm run clean --workspaces",
+    "test": "npm run test --workspaces",
+    "prepare-upload": "node scripts/prepare-upload.js"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "terser": "^5.0.0"
+  },
+  "keywords": [
+    "reactive",
+    "framework",
+    "vanilla",
+    "javascript",
+    "signals",
+    "dom",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "MIT"
+}

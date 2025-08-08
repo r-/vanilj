@@ -1,0 +1,50 @@
+{
+  "name": "@vanilj/plugin-reactive-object",
+  "version": "1.0.0",
+  "description": "Vanilj Reactive Object Plugin - Advanced reactive object system with proxy-based reactivity",
+  "type": "module",
+  "main": "./dist/vanilj-plugin-reactive-object.umd.js",
+  "module": "./dist/vanilj-plugin-reactive-object.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vanilj-plugin-reactive-object.js",
+      "require": "./dist/vanilj-plugin-reactive-object.umd.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run build:dev && npm run build:prod",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "dev": "vite build --watch --mode development",
+    "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "@vanilj/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@vanilj/core": "*",
+    "vite": "^5.0.0",
+    "terser": "^5.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "keywords": [
+    "vanilj",
+    "reactive",
+    "proxy",
+    "objects",
+    "state",
+    "plugin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/vanilj.git",
+    "directory": "packages/plugin-reactive-object"
+  }
+}

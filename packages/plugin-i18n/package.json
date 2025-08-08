@@ -1,0 +1,49 @@
+{
+  "name": "@vanilj/plugin-i18n",
+  "version": "1.0.0",
+  "description": "Vanilj i18n Plugin - Internationalization support for Vanilj applications",
+  "type": "module",
+  "main": "./dist/vanilj-plugin-i18n.umd.js",
+  "module": "./dist/vanilj-plugin-i18n.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vanilj-plugin-i18n.js",
+      "require": "./dist/vanilj-plugin-i18n.umd.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run build:dev && npm run build:prod",
+    "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "dev": "vite build --watch --mode development",
+    "clean": "rimraf dist"
+  },
+  "peerDependencies": {
+    "@vanilj/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@vanilj/core": "*",
+    "vite": "^5.0.0",
+    "terser": "^5.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "keywords": [
+    "vanilj",
+    "i18n",
+    "internationalization",
+    "localization",
+    "plugin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/vanilj.git",
+    "directory": "packages/plugin-i18n"
+  }
+}

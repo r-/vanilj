@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilj Framework - Browser Demo (UMD)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .demo-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .counter {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Vanilj Framework - Browser Demo</h1>
+    
+    <p>This demo tests the core framework functionality using the built UMD files.</p>
+
+    <!-- Core Framework Demo -->
+    <div class="demo-section">
+        <h2>📦 Core Framework Test</h2>
+        <p>Testing basic signal and computed functionality</p>
+        
+        <div class="status" id="core-status">Loading...</div>
+        
+        <div>
+            <span>Counter: </span>
+            <span class="counter" id="count-display">0</span>
+        </div>
+        <div>
+            <span>Double: </span>
+            <span class="counter" id="double-display">0</span>
+        </div>
+        
+        <button onclick="increment()">+1</button>
+        <button onclick="decrement()">-1</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+
+    <!-- Load Core Framework -->
+    <script src="../packages/vanilj-core/dist/vanilj-core.umd.js"></script>
+
+    <script>
+        // Test if core framework loaded
+        if (typeof VaniljCore !== 'undefined') {
+            document.getElementById('core-status').innerHTML = '✅ Core framework loaded successfully';
+            document.getElementById('core-status').style.background = '#d4edda';
+            
+            // Extract functions from global
+            const { signal, computed, effect } = VaniljCore;
+            
+            // Test basic functionality
+            try {
+                // Create signals
+                const count = signal(0);
+                const doubled = computed(() => count.value * 2);
+                
+                // Set up effects to update UI
+                effect(() => {
+                    document.getElementById('count-display').textContent = count.value;
+                });
+                
+                effect(() => {
+                    document.getElementById('double-display').textContent = doubled.value;
+                });
+                
+                // Global functions for buttons
+                window.increment = () => count.value++;
+                window.decrement = () => count.value--;
+                window.reset = () => count.value = 0;
+                
+                console.log('✅ Core framework is working correctly');
+                
+                // Test that signals work
+                count.value = 5;
+                if (doubled.value === 10) {
+                    console.log('✅ Computed values work correctly');
+                } else {
+                    console.error('❌ Computed values not working');
+                }
+                
+                // Reset to 0
+                count.value = 0;
+                
+            } catch (error) {
+                console.error('❌ Error testing core framework:', error);
+                document.getElementById('core-status').innerHTML = '❌ Core framework error: ' + error.message;
+                document.getElementById('core-status').style.background = '#f8d7da';
+            }
+            
+        } else {
+            document.getElementById('core-status').innerHTML = '❌ Core framework failed to load';
+            document.getElementById('core-status').style.background = '#f8d7da';
+            console.error('❌ VaniljCore not found - check if the UMD file exists and loads correctly');
+        }
+        
+        // Log what's available globally
+        console.log('🔍 Available globals:', Object.keys(window).filter(key => key.includes('Vanilj')));
+        
+        // Test individual functions
+        if (typeof VaniljCore !== 'undefined') {
+            console.log('🔍 VaniljCore exports:', Object.keys(VaniljCore));
+            
+            // Test each function
+            const tests = [
+                { name: 'signal', fn: VaniljCore.signal },
+                { name: 'computed', fn: VaniljCore.computed },
+                { name: 'effect', fn: VaniljCore.effect },
+                { name: 'useVaniljPlugin', fn: VaniljCore.useVaniljPlugin }
+            ];
+            
+            tests.forEach(test => {
+                if (typeof test.fn === 'function') {
+                    console.log(`✅ ${test.name} is available`);
+                } else {
+                    console.error(`❌ ${test.name} is missing or not a function`);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

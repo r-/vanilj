@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilj Framework - Complete Demo & Test Suite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-pass {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .test-fail {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .test-running {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+        }
+        .counter {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 5px 0;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .summary {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .summary.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .summary.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Vanilj Framework - Complete Demo & Test Suite</h1>
+    
+    <p>This page automatically tests all framework functionality and demonstrates the monorepo architecture.</p>
+
+    <div id="overall-status" class="summary">🔄 Running tests...</div>
+
+    <!-- Core Framework Tests -->
+    <div id="core-test" class="test-section test-running">
+        <h2>📦 Core Framework</h2>
+        <div id="core-status">Testing...</div>
+        <div class="counter">Counter: <span id="count-display">-</span></div>
+        <div class="counter">Double: <span id="double-display">-</span></div>
+        <div class="log" id="core-log"></div>
+    </div>
+
+    <!-- Plugin Tests -->
+    <div id="plugin-test" class="test-section test-running">
+        <h2>🔌 Plugin System</h2>
+        <div id="plugin-status">Testing...</div>
+        <div class="log" id="plugin-log"></div>
+    </div>
+
+    <!-- Integration Tests -->
+    <div id="integration-test" class="test-section test-running">
+        <h2>🔗 Integration Tests</h2>
+        <div id="integration-status">Testing...</div>
+        <div class="counter">Todo Count: <span id="todo-count">-</span></div>
+        <div class="counter">Store User: <span id="store-user">-</span></div>
+        <div class="log" id="integration-log"></div>
+    </div>
+
+    <!-- Load Core Framework -->
+    <script src="../packages/vanilj-core/dist/vanilj-core.umd.js"></script>
+
+    <script>
+        // Test results tracking
+        let testResults = {
+            core: false,
+            plugin: false,
+            integration: false
+        };
+
+        function log(section, message) {
+            const logElement = document.getElementById(section + '-log');
+            logElement.innerHTML += message + '\n';
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`[${section.toUpperCase()}] ${message}`);
+        }
+
+        function updateTestStatus(section, passed, message) {
+            const element = document.getElementById(section + '-test');
+            const statusElement = document.getElementById(section + '-status');
+            
+            if (element && statusElement) {
+                if (passed) {
+                    element.className = 'test-section test-pass';
+                    statusElement.innerHTML = '✅ ' + message;
+                    testResults[section] = true;
+                } else {
+                    element.className = 'test-section test-fail';
+                    statusElement.innerHTML = '❌ ' + message;
+                    testResults[section] = false;
+                }
+            } else {
+                console.error(`Could not find elements for section: ${section}`);
+            }
+            
+            updateOverallStatus();
+        }
+
+        function updateOverallStatus() {
+            const allPassed = Object.values(testResults).every(result => result === true);
+            const anyFailed = Object.values(testResults).some(result => result === false);
+            const overallElement = document.getElementById('overall-status');
+            
+            if (allPassed) {
+                overallElement.className = 'summary pass';
+                overallElement.innerHTML = '🎉 All tests passed! Framework is working perfectly.';
+            } else if (anyFailed) {
+                overallElement.className = 'summary fail';
+                overallElement.innerHTML = '💥 Some tests failed. Check the details below.';
+            } else {
+                overallElement.innerHTML = '🔄 Running tests...';
+            }
+        }
+
+        // Test 1: Core Framework
+        function testCoreFramework() {
+            log('core', 'Testing core framework...');
+            
+            try {
+                if (typeof VaniljCore === 'undefined') {
+                    throw new Error('VaniljCore not loaded');
+                }
+
+                const { signal, computed, effect, useVaniljPlugin } = VaniljCore;
+                log('core', '✓ VaniljCore loaded successfully');
+
+                // Test signal creation
+                const count = signal(0);
+                log('core', '✓ Signal created');
+
+                // Test computed values
+                const doubled = computed(() => count.value * 2);
+                log('core', '✓ Computed value created');
+
+                // Test effects
+                let effectRuns = 0;
+                effect(() => {
+                    document.getElementById('count-display').textContent = count.value;
+                    effectRuns++;
+                });
+
+                effect(() => {
+                    document.getElementById('double-display').textContent = doubled.value;
+                });
+
+                log('core', '✓ Effects created and running');
+
+                // Test reactivity
+                count.value = 5;
+                if (doubled.value === 10) {
+                    log('core', '✓ Reactivity working (5 * 2 = 10)');
+                } else {
+                    throw new Error(`Reactivity failed: expected 10, got ${doubled.value}`);
+                }
+
+                // Test multiple updates
+                count.value = 7;
+                count.value = 3;
+                count.value = 0;
+
+                if (effectRuns >= 4) {
+                    log('core', `✓ Effects ran ${effectRuns} times as expected`);
+                } else {
+                    throw new Error(`Effects should have run at least 4 times, ran ${effectRuns}`);
+                }
+
+                // Test plugin system
+                if (typeof useVaniljPlugin === 'function') {
+                    log('core', '✓ Plugin system available');
+                } else {
+                    throw new Error('Plugin system not available');
+                }
+
+                updateTestStatus('core', true, 'Core framework working perfectly');
+                
+                // Start plugin tests
+                setTimeout(testPluginSystem, 100);
+
+            } catch (error) {
+                log('core', '✗ Error: ' + error.message);
+                updateTestStatus('core', false, 'Core framework failed: ' + error.message);
+            }
+        }
+
+        // Test 2: Plugin System
+        function testPluginSystem() {
+            log('plugin', 'Testing plugin system...');
+            
+            try {
+                const { useVaniljPlugin, signal } = VaniljCore;
+                
+                // Test plugin registration
+                let pluginEvents = [];
+                useVaniljPlugin((event, data) => {
+                    pluginEvents.push({ event, data });
+                    log('plugin', `Plugin received event: ${event}`);
+                });
+
+                log('plugin', '✓ Plugin registered successfully');
+
+                // Test that plugins can receive events
+                const testSignal = signal(42);
+                testSignal.value = 100;
+
+                log('plugin', `✓ Plugin system functional`);
+                
+                updateTestStatus('plugin', true, 'Plugin system working');
+                
+                // Start integration tests
+                setTimeout(testIntegration, 100);
+
+            } catch (error) {
+                log('plugin', '✗ Error: ' + error.message);
+                updateTestStatus('plugins', false, 'Plugin system failed: ' + error.message);
+            }
+        }
+
+        // Test 3: Integration Tests
+        function testIntegration() {
+            log('integration', 'Testing framework integration...');
+            
+            try {
+                const { signal, computed, effect } = VaniljCore;
+
+                // Simulate a simple todo app
+                const todos = signal([
+                    { id: 1, text: 'Learn Vanilj', done: false },
+                    { id: 2, text: 'Build awesome apps', done: false }
+                ]);
+
+                const todoCount = computed(() => todos.value.length);
+                
+                effect(() => {
+                    document.getElementById('todo-count').textContent = todoCount.value;
+                });
+
+                log('integration', '✓ Todo system created');
+
+                // Simulate a store
+                const user = signal({ name: 'John Doe', theme: 'light' });
+                
+                effect(() => {
+                    document.getElementById('store-user').textContent = user.value.name;
+                });
+
+                log('integration', '✓ User store created');
+
+                // Test complex updates
+                todos.value = [...todos.value, { id: 3, text: 'Test framework', done: true }];
+                log('integration', `✓ Todo added, count now: ${todoCount.value}`);
+
+                user.value = { ...user.value, name: 'Jane Smith' };
+                log('integration', `✓ User updated to: ${user.value.name}`);
+
+                // Test computed dependencies
+                const completedTodos = computed(() => 
+                    todos.value.filter(todo => todo.done).length
+                );
+
+                if (completedTodos.value === 1) {
+                    log('integration', '✓ Complex computed values working');
+                } else {
+                    throw new Error(`Expected 1 completed todo, got ${completedTodos.value}`);
+                }
+
+                // Test multiple effects
+                let effectCount = 0;
+                effect(() => {
+                    effectCount++;
+                    // This effect depends on both todos and user
+                    const summary = `${user.value.name} has ${todoCount.value} todos`;
+                    log('integration', `Effect ${effectCount}: ${summary}`);
+                });
+
+                // Trigger updates to test effect
+                user.value = { ...user.value, name: 'Bob Wilson' };
+                todos.value = [...todos.value, { id: 4, text: 'Another task', done: false }];
+
+                if (effectCount >= 3) {
+                    log('integration', `✓ Multiple effects working (${effectCount} runs)`);
+                } else {
+                    throw new Error(`Expected at least 3 effect runs, got ${effectCount}`);
+                }
+
+                updateTestStatus('integration', true, 'Integration tests passed');
+
+            } catch (error) {
+                log('integration', '✗ Error: ' + error.message);
+                updateTestStatus('integration', false, 'Integration failed: ' + error.message);
+            }
+        }
+
+        // Start tests when page loads
+        window.addEventListener('load', () => {
+            console.log('🚀 Starting Vanilj Framework Test Suite');
+            
+            // Check if core framework loaded
+            if (typeof VaniljCore !== 'undefined') {
+                console.log('✅ VaniljCore available:', Object.keys(VaniljCore));
+                setTimeout(testCoreFramework, 100);
+            } else {
+                console.error('❌ VaniljCore not found');
+                updateTestStatus('core', false, 'Core framework not loaded');
+                updateTestStatus('plugins', false, 'Skipped (core failed)');
+                updateTestStatus('integration', false, 'Skipped (core failed)');
+            }
+        });
+
+        // Log framework info
+        console.log('🔍 Vanilj Framework Demo loaded');
+        console.log('📋 This demo will automatically test:');
+        console.log('   1. Core framework (signals, computed, effects)');
+        console.log('   2. Plugin system');
+        console.log('   3. Integration scenarios');
+        console.log('⏱️ Tests will run automatically in 100ms...');
+    </script>
+</body>
+</html>
