@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilj Meta-Package Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Vanilj Meta-Package Test</h1>
+    <p>This page tests the complete vanilj framework bundle.</p>
+
+    <div class="test-section">
+        <h3>📦 Core Framework Test</h3>
+        <p>Counter: <span id="counter">0</span></p>
+        <p>Double: <span id="double">0</span></p>
+        <button onclick="increment()">+1</button>
+        <button onclick="decrement()">-1</button>
+        <button onclick="reset()">Reset</button>
+        <div id="core-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🏪 Store Plugin Test</h3>
+        <p>Store Value: <span id="store-value">Not loaded</span></p>
+        <button onclick="testStore()">Test Store</button>
+        <div id="store-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🌍 i18n Plugin Test</h3>
+        <p>Current Language: <span id="current-lang">Not loaded</span></p>
+        <button onclick="testI18n()">Test i18n</button>
+        <div id="i18n-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔧 DevTools Plugin Test</h3>
+        <p>DevTools Status: <span id="devtools-status">Not loaded</span></p>
+        <button onclick="testDevtools()">Test DevTools</button>
+        <div id="devtools-result"></div>
+    </div>
+
+    <!-- Load the vanilj meta-package -->
+    <script src="dist/vanilj.umd.js"></script>
+    
+    <script>
+        // Test Core Framework
+        let count, doubled;
+        
+        function initCore() {
+            try {
+                count = vanilj.signal(0);
+                doubled = vanilj.computed(() => count.value * 2);
+                
+                vanilj.effect(() => {
+                    document.getElementById('counter').textContent = count.value;
+                });
+                
+                vanilj.effect(() => {
+                    document.getElementById('double').textContent = doubled.value;
+                });
+                
+                document.getElementById('core-status').innerHTML = '<span style="color: green;">✅ Core framework loaded successfully!</span>';
+            } catch (error) {
+                document.getElementById('core-status').innerHTML = '<span style="color: red;">❌ Core framework failed: ' + error.message + '</span>';
+            }
+        }
+        
+        function increment() {
+            count.value++;
+        }
+        
+        function decrement() {
+            count.value--;
+        }
+        
+        function reset() {
+            count.value = 0;
+        }
+        
+        function testStore() {
+            try {
+                if (vanilj.createStore) {
+                    const store = vanilj.createStore({ test: 'Hello Store!' });
+                    document.getElementById('store-value').textContent = store.state.test;
+                    document.getElementById('store-status').innerHTML = '<span style="color: green;">✅ Store plugin working!</span>';
+                } else {
+                    throw new Error('createStore not available');
+                }
+            } catch (error) {
+                document.getElementById('store-status').innerHTML = '<span style="color: red;">❌ Store plugin failed: ' + error.message + '</span>';
+            }
+        }
+        
+        function testI18n() {
+            try {
+                if (vanilj.initI18n) {
+                    // Create a simple mock i18n service for testing
+                    const mockI18nService = {
+                        lang: vanilj.signal('en'),
+                        t: (key) => {
+                            const messages = {
+                                en: { hello: 'Hello', test: 'Test' },
+                                es: { hello: 'Hola', test: 'Prueba' }
+                            };
+                            return messages[mockI18nService.lang.value]?.[key] || key;
+                        }
+                    };
+                    
+                    // Test the initI18n function
+                    vanilj.initI18n(document, mockI18nService);
+                    document.getElementById('current-lang').textContent = mockI18nService.lang.value;
+                    document.getElementById('i18n-status').innerHTML = '<span style="color: green;">✅ i18n plugin working! (DOM binding utility)</span>';
+                } else {
+                    throw new Error('initI18n not available');
+                }
+            } catch (error) {
+                document.getElementById('i18n-status').innerHTML = '<span style="color: red;">❌ i18n plugin failed: ' + error.message + '</span>';
+            }
+        }
+        
+        function testDevtools() {
+            try {
+                if (vanilj.useVaniljDevtools) {
+                    vanilj.useVaniljDevtools();
+                    document.getElementById('devtools-status').textContent = 'Enabled';
+                    document.getElementById('devtools-result').innerHTML = '<span style="color: green;">✅ DevTools plugin working!</span>';
+                } else {
+                    throw new Error('useVaniljDevtools not available');
+                }
+            } catch (error) {
+                document.getElementById('devtools-result').innerHTML = '<span style="color: red;">❌ DevTools plugin failed: ' + error.message + '</span>';
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('Available vanilj exports:', Object.keys(vanilj));
+            initCore();
+        });
+    </script>
+</body>
+</html>

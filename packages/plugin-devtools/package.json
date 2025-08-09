@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Vanilj DevTools Plugin - Development tools and debugging utilities",
   "type": "module",
-  "main": "./dist/vanilj-plugin-devtools.umd.js",
-  "module": "./dist/vanilj-plugin-devtools.js",
+  "main": "./dist/vanilj-plugin-devtools.min.umd.js",
+  "module": "./dist/vanilj-plugin-devtools.min.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vanilj-plugin-devtools.js",
-      "require": "./dist/vanilj-plugin-devtools.umd.cjs"
+      "import": "./dist/vanilj-plugin-devtools.min.es.js",
+      "require": "./dist/vanilj-plugin-devtools.min.umd.js"
     }
   },
   "files": [
@@ -41,6 +41,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/your-username/vanilj.git",

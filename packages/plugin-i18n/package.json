@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Vanilj i18n Plugin - Internationalization support for Vanilj applications",
   "type": "module",
-  "main": "./dist/vanilj-plugin-i18n.umd.js",
-  "module": "./dist/vanilj-plugin-i18n.js",
+  "main": "./dist/vanilj-plugin-i18n.min.umd.js",
+  "module": "./dist/vanilj-plugin-i18n.min.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vanilj-plugin-i18n.js",
-      "require": "./dist/vanilj-plugin-i18n.umd.cjs"
+      "import": "./dist/vanilj-plugin-i18n.min.es.js",
+      "require": "./dist/vanilj-plugin-i18n.min.umd.js"
     }
   },
   "files": [
@@ -41,6 +41,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/your-username/vanilj.git",

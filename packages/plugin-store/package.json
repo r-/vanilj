@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Vanilj Store Plugin - State management with persistence, middleware, and undo/redo support",
   "type": "module",
-  "main": "./dist/vanilj-plugin-store.umd.js",
-  "module": "./dist/vanilj-plugin-store.js",
+  "main": "./dist/vanilj-plugin-store.min.umd.js",
+  "module": "./dist/vanilj-plugin-store.min.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vanilj-plugin-store.js",
-      "require": "./dist/vanilj-plugin-store.umd.cjs"
+      "import": "./dist/vanilj-plugin-store.min.es.js",
+      "require": "./dist/vanilj-plugin-store.min.umd.js"
     }
   },
   "files": [
@@ -42,6 +42,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/your-username/vanilj.git",

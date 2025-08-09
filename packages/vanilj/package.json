@@ -1,0 +1,60 @@
+{
+  "name": "vanilj",
+  "version": "1.0.0",
+  "description": "Vanilj – Minimal reactive JavaScript UI framework",
+  "type": "module",
+  "main": "dist/vanilj.umd.js",
+  "module": "dist/vanilj.es.js",
+  "unpkg": "dist/vanilj.umd.js",
+  "jsdelivr": "dist/vanilj.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vanilj.es.js",
+      "require": "./dist/vanilj.umd.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "vanilj",
+    "signals",
+    "reactivity",
+    "framework",
+    "javascript",
+    "reactive",
+    "vanilla",
+    "dom"
+  ],
+  "author": "rdsh",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/r-/vanilj",
+    "directory": "packages/vanilj"
+  },
+  "bugs": {
+    "url": "https://github.com/r-/vanilj/issues"
+  },
+  "homepage": "https://github.com/r-/vanilj#readme",
+  "dependencies": {
+    "@vanilj/core": "^1.0.0",
+    "@vanilj/plugin-store": "^1.0.0",
+    "@vanilj/plugin-i18n": "^1.0.0",
+    "@vanilj/plugin-devtools": "^1.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "rimraf": "^5.0.0"
+  }
+}

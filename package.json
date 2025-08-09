@@ -11,6 +11,8 @@
     "build": "npm run build --workspaces",
     "build:core": "npm run build --workspace=@vanilj/core",
     "build:plugins": "npm run build --workspace=@vanilj/plugin-devtools --workspace=@vanilj/plugin-i18n --workspace=@vanilj/plugin-reactive-object --workspace=@vanilj/plugin-store",
+    "build:vanilj": "npm run build --workspace=vanilj",
+    "prepare:cdn": "node scripts/prepare-cdn.js",
     "dev": "npm run dev --workspaces",
     "clean": "npm run clean --workspaces",
     "test": "npm run test --workspaces",
