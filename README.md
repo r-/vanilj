@@ -3,7 +3,6 @@
 [![npm version](https://img.shields.io/npm/v/vanilj?color=brightgreen&label=npm%20(full))](https://www.npmjs.com/package/vanilj)
 [![npm version core](https://img.shields.io/npm/v/@vanilj/core?color=brightgreen&label=npm%20(core))](https://www.npmjs.com/package/@vanilj/core)
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Bundle size](https://img.shields.io/bundlephobia/minzip/vanilj?label=min%2Bgzip%20(full))](https://bundlephobia.com/package/vanilj)
 
 A lightweight **reactive framework for vanilla JavaScript** with a modular plugin architecture.  
 Built for **speed, simplicity, and flexibility** — works in the browser or with modern bundlers.
