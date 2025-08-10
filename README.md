@@ -1,112 +1,230 @@
 # Vanilj Framework
 
-A lightweight reactive framework for vanilla JavaScript with a modular plugin architecture.
+[![npm version](https://img.shields.io/npm/v/vanilj?color=brightgreen&label=npm%20(full))](https://www.npmjs.com/package/vanilj)
+[![npm version core](https://img.shields.io/npm/v/@vanilj/core?color=brightgreen&label=npm%20(core))](https://www.npmjs.com/package/@vanilj/core)
+[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/vanilj?label=min%2Bgzip%20(full))](https://bundlephobia.com/package/vanilj)
 
-## 🚀 Features
+A lightweight **reactive framework for vanilla JavaScript** with a modular plugin architecture.  
+Built for **speed, simplicity, and flexibility** — works in the browser or with modern bundlers.
 
-- **Reactive Signals**: Lightweight reactive primitives for state management
-- **Computed Values**: Automatically derived state that updates when dependencies change
-- **DOM Binding**: Simple and efficient DOM updates with `effect()`
-- **Plugin Architecture**: Modular design with separate packages for different functionality
-- **TypeScript Ready**: Full TypeScript support (coming soon)
-- **CDN Ready**: UMD builds for direct browser usage
-- **Tree Shakeable**: ES modules for modern bundlers
+**🌐 Main site & documentation:** [vanilj.org](https://vanilj.org)
 
-## 📦 Packages
+---
 
-This is a monorepo containing the following packages:
+##  Purpose
 
-### Core Framework
-- **[@vanilj/core](packages/vanilj-core/)** - Core reactive framework with signals, computed values, and effects
+Vanilj is designed primarily for **extremely fast prototyping** and **educational use**.  
+It enables creating interactive web experiences in minutes, even without a build setup.  
+
+That said—if you're building large-scale production apps, consider more **mature and battle-tested frameworks** like Vue, React, or Solid.
+
+---
+
+##  Features
+
+- **Reactive Signals** — minimal reactive primitives for state  
+- **Computed Values** — derived state updates automatically  
+- **DOM Binding** — efficient updates via `effect()`  
+- **Plugin Architecture** — pick only the features you need  
+- **Tree-Shakeable** — ESM for bundlers, UMD for browsers  
+- **CDN Ready** — load directly via script tags  
+- **TypeScript Support** — No, VanilJ is Vanilla! :)
+
+---
+
+##  Packages
+
+This monorepo includes:
+
+### Core
+- **[`@vanilj/core`](https://www.npmjs.com/package/@vanilj/core)** — signals, computed, effect, and DOM utilities.
 
 ### Plugins
-- **[@vanilj/plugin-devtools](packages/plugin-devtools/)** - Development tools with signal tracking and time-travel debugging
-- **[@vanilj/plugin-store](packages/plugin-store/)** - Global state management with persistence and middleware support
-- **[@vanilj/plugin-reactive-object](packages/plugin-reactive-object/)** - Deep reactive objects and arrays
-- **[@vanilj/plugin-i18n](packages/plugin-i18n/)** - Internationalization support with reactive language switching
+- **[`@vanilj/plugin-store`](https://www.npmjs.com/package/@vanilj/plugin-store)** — state management with persistence  
+- **[`@vanilj/plugin-devtools`](https://www.npmjs.com/package/@vanilj/plugin-devtools)** — debugging tools, signal tracking  
+- **[`@vanilj/plugin-reactive-object`](https://www.npmjs.com/package/@vanilj/plugin-reactive-object)** — deep-reactive objects & arrays  
+- **[`@vanilj/plugin-i18n`](https://www.npmjs.com/package/@vanilj/plugin-i18n)** — reactive internationalization
 
-## 🏗️ Installation
+### Full Bundle
+- **[`vanilj`](https://www.npmjs.com/package/vanilj)** — core + all official plugins, bundled as a single package.
 
-### NPM (Recommended)
+---
+
+##  Installation
+
+### Option 1 — Full Bundle (Core + Plugins)
 ```bash
-# Install core framework
+npm install vanilj
+```
+```js
+import { signal, computed, effect, createStore } from 'vanilj'
+```
+
+### Option 2 — Modular Install
+```bash
+# Core
 npm install @vanilj/core
 
-# Install plugins as needed
+# Optional plugins
 npm install @vanilj/plugin-store
 npm install @vanilj/plugin-devtools
 npm install @vanilj/plugin-reactive-object
 npm install @vanilj/plugin-i18n
 ```
+```js
+import { signal, computed, effect } from '@vanilj/core'
+import { createStore } from '@vanilj/plugin-store'
+```
 
-### CDN Usage
+### ESM (for bundlers)
+```js
+// Full bundle usage
+import { signal, computed, effect } from 'vanilj'
+
+// Modular usage
+import { signal, computed, effect } from '@vanilj/core'
+import { createStore } from '@vanilj/plugin-store'
+```
+
+---
+
+##  CDN Usage
+
+### From npm (unpkg)
 ```html
-<!-- Core Framework -->
+<!-- Full bundle -->
+<script src="https://unpkg.com/vanilj/dist/vanilj.min.umd.js"></script>
+
+<!-- Core only -->
 <script src="https://unpkg.com/@vanilj/core/dist/vanilj-core.min.umd.js"></script>
 
-<!-- Plugins (optional) -->
+<!-- Plugins -->
 <script src="https://unpkg.com/@vanilj/plugin-store/dist/vanilj-plugin-store.min.umd.js"></script>
 <script src="https://unpkg.com/@vanilj/plugin-devtools/dist/vanilj-plugin-devtools.min.umd.js"></script>
+<script src="https://unpkg.com/@vanilj/plugin-reactive-object/dist/vanilj-plugin-reactive-object.min.umd.js"></script>
+<script src="https://unpkg.com/@vanilj/plugin-i18n/dist/vanilj-plugin-i18n.min.umd.js"></script>
 ```
 
-## 🎯 Quick Start
+### From GitHub (jsDelivr) — version-pinned (recommended)
+```html
+<!-- Core (v1.0.1) -->
+<script src="https://cdn.jsdelivr.net/gh/r-/vanilj@v1.0.1/dist/vanilj-core.umd.js"></script>
 
-### Basic Usage
-```javascript
-import { signal, computed, effect } from '@vanilj/core';
+<!-- Full bundle (v1.0.1) -->
+<script src="https://cdn.jsdelivr.net/gh/r-/vanilj@v1.0.1/dist/vanilj.umd.js"></script>
+```
 
-// Create reactive state
-const count = signal(0);
-const doubled = computed(() => count.value * 2);
+> **Tip:** Pin CDN versions to avoid breaking changes:
+> - unpkg: `https://unpkg.com/@vanilj/core@1.0.1/dist/vanilj-core.min.umd.js`  
+> - jsDelivr: `https://cdn.jsdelivr.net/gh/r-/vanilj@1.0.1/dist/vanilj-core.umd.js`
 
-// React to changes
+### Browser globals
+```html
+<!-- Full bundle → window.Vanilj -->
+<script src="https://unpkg.com/vanilj/dist/vanilj.min.umd.js"></script>
+<script>
+  const { signal, effect } = window.Vanilj
+  const count = signal(0)
+  effect(() => console.log('Count:', count.value))
+</script>
+
+<!-- Core UMD → window.VaniljCore -->
+<script src="https://unpkg.com/@vanilj/core/dist/vanilj-core.min.umd.js"></script>
+<script>
+  const { signal } = window.VaniljCore
+</script>
+```
+
+---
+
+##  Quick Start
+
+**Core example:**
+```js
+import { signal, computed, effect } from '@vanilj/core'
+
+const count = signal(0)
+const doubled = computed(() => count.value * 2)
+
 effect(() => {
-  console.log(`Count: ${count.value}, Doubled: ${doubled.value}`);
-});
+  console.log(`Count: ${count.value}, Doubled: ${doubled.value}`)
+})
 
-// Update state
-count.value++; // Logs: "Count: 1, Doubled: 2"
+count.value++ // → "Count: 1, Doubled: 2"
 ```
 
-### With Plugins
-```javascript
-import { signal } from '@vanilj/core';
-import { createStore } from '@vanilj/plugin-store';
-import { useVaniljDevtools } from '@vanilj/plugin-devtools';
+**With plugins:**
+```js
+import { signal } from '@vanilj/core'
+import { createStore } from '@vanilj/plugin-store'
+import { useVaniljDevtools } from '@vanilj/plugin-devtools'
 
-// Enable DevTools
-const devtools = useVaniljDevtools();
+const devtools = useVaniljDevtools()
+const store = createStore({ todos: [] })
 
-// Create a store
-const store = createStore({
-  user: { name: 'John', theme: 'dark' },
-  todos: []
-});
-
-// Use reactive state
-const count = signal(0);
-store.subscribe(() => console.log('Store updated!'));
+store.subscribe(() => console.log('Store updated!'))
 ```
 
-## 📚 Examples
+---
 
-Check out the [examples](examples/) directory for complete working examples:
+##  Basic DOM Example
 
-- **[Monorepo Demo](examples/monorepo-demo.html)** - Comprehensive demo showing all packages working together
-- **[Basic Counter](examples/basic-counter.html)** - Simple counter using core framework
-- **[Todo App](examples/todo-app.html)** - Todo application with store and reactive objects
+While Vanilj's core is pure reactivity, it includes a powerful `html` template system for rendering. Here is a simple counter component:
 
-## 🛠️ Development
+**HTML:**
+```html
+<div id="app"></div>
+```
 
-### Prerequisites
-- Node.js 16+ 
-- npm 7+ (for workspaces support)
+**JavaScript:**
+```js
+import { signal, html, mount } from 'vanilj';
 
-### Setup
+// A component is a function that returns a DOM node
+function CounterComponent() {
+  const count = signal(0);
+  
+  const increment = () => {
+    count.value++;
+  };
+
+  // The html template is reactive to signals
+  return html`
+    <div>
+      <h1>Simple Counter</h1>
+      <p>The current count is: ${count}</p>
+      <button onclick="${increment}">Increment</button>
+    </div>
+  `;
+}
+
+// Mount the component to an element on your page
+mount(document.getElementById('app'), CounterComponent());
+```
+
+This example shows how `signal` and `html` work together to create reactive user interfaces with minimal code.
+
+---
+
+##  Examples
+
+- [Basic Counter](examples/browser-demo.html) — core only   
+- [Monorepo Demo](examples/monorepo-demo.html) — all packages together  
+- More guides & docs: [vanilj.org/docs/get-started](https://vanilj.org/docs/get-started)
+
+---
+
+##  Development
+
+**Prerequisites:**
+- Node.js 16+
+- npm 7+ (for workspace support)
+
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/vanilj-framework.git
-cd vanilj-framework
+# Clone repository
+git clone https://github.com/r-/vanilj.git
+cd vanilj
 
 # Install dependencies
 npm install
@@ -121,42 +239,63 @@ npm run build:core
 npm run build:plugins
 ```
 
-### Project Structure
+**Project structure:**
 ```
-vanilj-framework/
+vanilj/
 ├── packages/
-│   ├── vanilj-core/          # Core framework
-│   ├── plugin-devtools/      # DevTools plugin
-│   ├── plugin-store/         # Store plugin
-│   ├── plugin-reactive-object/ # Reactive objects plugin
-│   └── plugin-i18n/          # i18n plugin
-├── examples/                 # Example applications
-├── package.json              # Root workspace config
-└── README.md
+│   ├── vanilj-core/
+│   ├── plugin-devtools/
+│   ├── plugin-store/
+│   ├── plugin-reactive-object/
+│   └── plugin-i18n/
+├── dist/        # UMD builds for GitHub CDN (jsDelivr)
+├── examples/
+└── package.json
 ```
 
-## 🔧 Build System
+### Development notes
+- The root `dist/` includes UMD builds for **GitHub CDN** (jsDelivr), enabling use without a build step.
+- `packages/*/dist` includes builds for **npm publishing** (currently committed, planned to automate later).
+- To come: build automation via **GitHub Actions** — keeping `dist/` out of the development branch and only building on release tags.
 
-Each package is built with Vite and produces:
-- **ES Modules** (`*.es.js`) - For modern bundlers
-- **UMD Builds** (`*.umd.js`) - For direct browser usage
-- **Minified versions** (`*.min.js`) - For production
-- **Source maps** (`*.map`) - For debugging
+---
 
-## 🤝 Contributing
+##  Build System
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+Built with Vite — each package outputs:
+- ES Modules (`*.es.js`)
+- UMD builds (`*.umd.js`)
+- Minified builds (`*.min.js`)
+- Source maps (`*.map`)
+
+---
+
+##  Compatibility
+
+- Modern browsers (ES2018+)
+- Node.js 16+
+- Supports both ESM and UMD
+
+---
+
+##  Contributing
+
+1. Fork the repo  
+2. Create a branch (`git checkout -b feature/my-feature`)  
+3. Commit your changes  
+4. Push (`git push origin feature/my-feature`)  
 5. Open a Pull Request
 
-## 📄 License
+---
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+##  License
 
-## 🙏 Acknowledgments
+Vanilj is released under the **MIT License**. See [LICENSE](LICENSE) for details.
 
-- Inspired by modern reactive frameworks like Vue 3, Solid.js, and Preact Signals
-- Built with Vite for fast development and optimized builds
-- Uses NPM workspaces for monorepo management
+---
+
+##  Acknowledgments
+
+Inspired by **Vue 3**, **Solid.js**, **Preact Signals**, the **TC39 Signals proposal**, **VanJS**, and **htm**.  
+Built with **Vite** for fast builds.  
+Managed with **npm workspaces**.
